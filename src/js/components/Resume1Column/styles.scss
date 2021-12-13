@@ -1,0 +1,125 @@
+$link-color: #222288;
+
+.resume-1-column {
+    .resume {
+        &-header {
+            display: flex;
+            color: #808080;
+            justify-content: space-between;
+            &__role {
+                font-weight: 400;
+                text-transform: uppercase;
+            }
+
+            &__contacts {
+                display: flex;
+                width: 300px;
+                flex-wrap: wrap;
+                align-items: center;
+
+                .resume__contact {
+                    width: 150px;
+                    height: 20px;
+                    color: $link-color;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    font-weight: 100;
+
+                    &-icon {
+                        width: 20px;
+                        height: 20px;
+                        margin-right: 8px;
+                        text-align: center;
+
+                        img {
+                            max-width: 20px;
+                            max-height: 20px;
+                        }
+                    }
+            
+                    a {
+                        color: inherit;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        // Keeping this section outside header or body because it might be moved around both
+        &__skills {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+
+            .resume__skill {
+                margin: 1px 3px;
+                font-weight: 100;
+            }
+        }
+
+        &-body {
+            display: flex;
+            margin-top: 10px !important;
+            width: 100%;
+            flex-direction: column;
+
+            &__sections {
+                width: 100%;
+                margin-top: 10px;
+                position: relative;
+            }
+        }
+
+        &__section-heading {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 15px;
+            margin: 0 0 5px 0;
+        }
+
+        &-section {
+            margin-bottom: 15px;
+            .resume-item {
+                &__line1 {
+                    display: flex;
+                    width: 100%;
+                    margin-top: 7px;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .resume-item__titles {
+                        display: flex;
+                        align-items: center;
+                        .resume-item__title {
+                            font-weight: 500;
+                            font-size: 15px;
+                        }
+                        .resume-item__subtitle {
+                            // font-style: italic;
+                            font-weight: 500;
+                            margin: 0 5px;
+
+                            &::before {
+                                // content: '| '
+                            }
+                        }
+                    }
+                }
+                &__line2 {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 0 0 2px;
+                    
+                    .resume-item__subtitle {
+                        font-style: italic;
+                    }
+                }
+
+                &__description {
+                    font-weight: 100;
+                }
+            }
+        }
+    }
+}

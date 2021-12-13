@@ -1,0 +1,78 @@
+$link-color: #222288;
+.resume-2-column {
+    .resume {
+        &-header {
+            color: #808080;
+            &__role {
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+        }
+
+        &-body {
+            display: flex;
+            margin-top: 25px;
+
+            &__column-1 {
+                width: 19%;
+                margin-right: 10px;
+                // background: gray;
+                position: relative;
+                overflow: hidden;
+
+                .resume__skills {
+                    position: relative;
+                    background: maroon;
+                    width: 100%;
+
+                    .resume__skill {
+                        margin: 10px;
+                        position: relative;
+                    }
+                }
+
+                .resume__contact {
+                    color: $link-color;
+
+                    a {
+                        color: inherit;
+                        text-decoration: none;
+                    }
+                }
+            }
+            &__column-2 {
+                width: 81%;
+            }
+        }
+
+        &__section-heading {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 15px;
+            margin: 0 0 5px 0;
+        }
+
+        &-section {
+            margin-bottom: 15px;
+            .resume-item {
+                margin-bottom: 7px;
+                &__title {
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                &__line2 {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 4px 0;
+                    .resume-item__subtitle {
+                        font-style: italic;
+                    }
+                }
+
+                &__description {
+                    font-weight: 100;
+                }
+            }
+        }
+    }
+}

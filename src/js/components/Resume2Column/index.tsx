@@ -1,16 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Section, SectionHeading } from '../Section';
 
 import './styles.scss';
-import { ResumeComponent } from '../../../types';
+import { ContactProps, ResumeComponent } from '../../../types';
 
-type ContactProps = {
-    text: string;
-    url?: string;
-}
 const Contact = ({ url, text }: ContactProps) => {
     return (
         <div className='resume__contact'>
@@ -67,19 +62,6 @@ const Resume = ({ resumeJson, controls, previewMode }: ResumeComponent) => {
             </div>
         </div>
     );
-};
-
-Resume.propTypes = {
-    resumeJson: PropTypes.shape({
-        profile: PropTypes.object.isRequired,
-        sections: PropTypes.array.isRequired,
-        skills: PropTypes.array.isRequired,
-    }),
-    controls: PropTypes.shape({
-        primaryColor: PropTypes.string.isRequired,
-        secondaryColor: PropTypes.string.isRequired,
-    }).isRequired,
-    previewMode: PropTypes.bool,
 };
 
 const ConnectedResume = connect(

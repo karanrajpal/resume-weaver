@@ -1,3 +1,9 @@
+type ContactProps = {
+    text: string;
+    url?: string;
+    icon?: string;
+};
+
 export type Item = {
     title: string;
     subtitle: string;
