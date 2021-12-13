@@ -9,9 +9,10 @@
     "dev": "parcel src/index.html"
   },
   "dependencies": {
+    "ace-builds": "^1.4.13",
     "parcel": "^2.0.1",
     "react": "^16.14.0",
-    "react-ace": "^6.2.0",
+    "react-ace": "^9.5.0",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
