@@ -9,7 +9,7 @@ export type Item = {
     subtitle: string;
     description: string;
     date: string;
-    link: string;
+    link?: string;
 };
 
 export type SectionData = {
@@ -23,16 +23,21 @@ export type SectionProps = {
     compact?: boolean;
 };
 
-export type ResumeComponent = {
+export type ResumeData = {
     resumeJson: {
         profile: Record<string, any>;
         sections: SectionData[];
         skills: string[];
     };
+    resumeLayoutKey: string;
     controls: {
         primaryColor: string;
         secondaryColor: string;
     };
+};
+
+// Extra keys for the component
+export type ResumeComponent = ResumeData & {
     compact: boolean;
     previewMode: boolean;
 };
