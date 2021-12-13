@@ -1,15 +1,8 @@
 import React, { Fragment } from 'react';
+import { Item, SectionProps } from '../../types';
 
 type SectionHeadingProps = {
     heading: string;
-};
-
-type Item = {
-    title: string;
-    subtitle: string;
-    description: string;
-    date: string;
-    link: string;
 };
 
 export const SectionHeading = (props: SectionHeadingProps) => (
@@ -60,15 +53,6 @@ const SectionItemCompact = ({ item, primaryColor }: SectionItemProps) => (
         <div className='resume-item__description' dangerouslySetInnerHTML={{ __html: item.description }}></div>
     </div>
 );
-
-type SectionProps = {
-    sectionData: {
-        data: Item[];
-        title: string;
-    };
-    primaryColor: string;
-    compact: boolean;
-};
 
 export const Section = ({ sectionData, primaryColor, compact }: SectionProps) => {
     const {
