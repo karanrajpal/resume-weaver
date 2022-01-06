@@ -1,8 +1,8 @@
 // Import React component
-import App from './js/components/App';
+import App from './client/components/App';
 
 // Import loadState to read from the browser's local storage
-import { loadState } from './js/state/localStorage';
+import { loadState } from './client/state/localStorage';
 
 // Import React and Redux
 import React from 'react';
@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 // Import the initial state for first time load
-import AppReducer, { initialState } from './js/state/AppReducer';
+import AppReducer, { initialState } from './client/state/AppReducer';
 
 // Configuring Redux Store
 const configureStore = () => {
