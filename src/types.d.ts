@@ -30,6 +30,9 @@ export type ResumeData = {
         skills: string[];
     };
     resumeLayoutKey: string;
+    arweave: {
+        menuOpen: boolean;
+    };
     controls: {
         primaryColor: string;
         secondaryColor: string;

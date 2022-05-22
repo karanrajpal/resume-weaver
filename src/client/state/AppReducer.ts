@@ -4,6 +4,7 @@ import {
     LOAD_INITIAL_STATE,
     SET_RESUME_LAYOUT,
     SET_CONTROL,
+    SET_SAVE_MENU_OPEN,
 } from './actions';
 
 // Import saveState to save to browser's local storage
@@ -75,6 +76,9 @@ export const initialState: ResumeData = {
         "skills": ["JavaScript", "Snoozing", "Eating"]
     },
     resumeLayoutKey: 'single',
+    arweave: {
+        menuOpen: false,
+    },
     controls: {
         primaryColor: "#6666cc",
         secondaryColor: "#603839"
@@ -115,6 +119,18 @@ const AppReducer = (state = initialState, action) => {
             };
             saveState(modifiedState);
             return modifiedState;
+        }
+        case SET_SAVE_MENU_OPEN: {
+            console.log(state);
+            console.log('-------');
+            console.log(action);
+            return {
+                ...state,
+                arweave: {
+                    ...state.arweave,
+                    menuOpen: !state.arweave.menuOpen,
+                },
+            };
         }
         default:
             return state;

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ReactModal from 'react-modal';
 
 import AceEditor from 'react-ace';
 
@@ -8,16 +9,19 @@ import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-monokai';
 
 import ConnectedResume from './ResumeSwitch';
-import { setResumeJson, loadInitialState, setResumeLayout, setControl } from '../state/actions';
+import { setResumeJson, loadInitialState, setResumeLayout, setControl, setSaveMenuOpen } from '../state/actions';
+import { ResumeData } from '../../types';
+import { Save } from './Save';
 
 type ToolbarProps = {
     controls: {};
     loadInitialState: () => void;
     setResumeLayout: (layout: string) => void;
     setControl: (controlKey: string, controlValue: string) => void;
+    setSaveMenuOpen: (isOpen: boolean) => void;
 };
 
-const Toolbar = ({ controls = {}, setControl, loadInitialState, setResumeLayout }: ToolbarProps) => (
+const Toolbar = ({ controls = {}, setSaveMenuOpen, setControl, loadInitialState, setResumeLayout }: ToolbarProps) => (
     <nav>
         <div className='nav-container resume-editor__toolbar'>
             <div className='nav-logo'>
@@ -51,6 +55,10 @@ const Toolbar = ({ controls = {}, setControl, loadInitialState, setResumeLayout 
                     const confirm = window.confirm('Reset back to original resume data?');
                     confirm && loadInitialState();
                 }}>Reset</a></li>
+                <a onClick={() => {
+                    console.log('Save to Arweave Modal');
+                    setSaveMenuOpen(true);
+                }}>Save</a>
                 <li><Link className='btn btn-link btn-small' to='/resume'>View</Link></li>
             </ul>
         </div>
@@ -58,77 +66,94 @@ const Toolbar = ({ controls = {}, setControl, loadInitialState, setResumeLayout 
 );
 
 const ConnectedToolbar = connect(
-    (state) => ({
+    (state: ResumeData) => ({
         controls: state.controls,
+        arweaveState: state.arweave,
     }),
     (dispatch) => ({
         loadInitialState: () => dispatch(loadInitialState()),
         setResumeLayout: (resumeLayoutKey) => dispatch(setResumeLayout(resumeLayoutKey)),
         setControl: (controlKey, controlValue) => dispatch(setControl(controlKey, controlValue)),
+        setSaveMenuOpen: (open) => dispatch(setSaveMenuOpen(open)),
     })
 )(Toolbar);
 
 type ResumeEditorProps = {
     resumeJson: Record<string, any>;
+    menuOpen: boolean;
     setResumeJson: (resumeJson: Record<string, any>) => void;
 };
 
-class ResumeEditor extends Component<ResumeEditorProps> {
-    constructor(props) {
-        super(props);
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(resumeJson) {
+const ResumeEditor = (props: ResumeEditorProps) => {
+    const onChange = (resumeJson) => {
         try {
             resumeJson = JSON.parse(resumeJson);
-            this.props.setResumeJson(resumeJson);
+            props.setResumeJson(resumeJson);
         } catch (e) {
             // do nothing
         }
     }
 
-    render() {
-        let { resumeJson } = this.props;
-        resumeJson = JSON.stringify(resumeJson, null, 2);
-        return (
-            <div className='resume-editor'>
-                <ConnectedToolbar />
-                <div className='resume-split-screen'>
-                    <div className='resume-editor__json'>
-                        <AceEditor
-                            mode="json"
-                            theme="monokai"
-                            name="code-editor"
-                            onChange={this.onChange}
-                            fontSize={14}
-                            showPrintMargin={true}
-                            showGutter={true}
-                            highlightActiveLine={true}
-                            value={resumeJson}
-                            height={'100%'}
-                            width={'100%'}
-                            setOptions={{
-                                enableBasicAutocompletion: false,
-                                enableLiveAutocompletion: false,
-                                enableSnippets: false,
-                                showLineNumbers: true,
-                                tabSize: 2,
-                            }}
-                        />
-                    </div>
-                    <ConnectedResume
-                        previewMode={true}
+    const { resumeJson, menuOpen = false } = props;
+    const resumeJsonString = JSON.stringify(resumeJson, null, 2);
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+
+    return (
+        <div className='resume-editor'>
+            <ConnectedToolbar />
+            <div className='resume-split-screen'>
+                <div className='resume-editor__json'>
+                    <AceEditor
+                        mode="json"
+                        theme="monokai"
+                        name="code-editor"
+                        onChange={onChange}
+                        fontSize={14}
+                        showPrintMargin={true}
+                        showGutter={true}
+                        highlightActiveLine={true}
+                        value={resumeJsonString}
+                        height={'100%'}
+                        width={'100%'}
+                        setOptions={{
+                            enableBasicAutocompletion: false,
+                            enableLiveAutocompletion: false,
+                            enableSnippets: false,
+                            showLineNumbers: true,
+                            tabSize: 2,
+                        }}
                     />
                 </div>
+                <ConnectedResume
+                    previewMode={true}
+                />
             </div>
-        );
-    }
+            {menuOpen ? <ReactModal
+                isOpen={menuOpen}
+                // onAfterOpen={afterOpenModal}
+                onRequestClose={() => setSaveMenuOpen(false)}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <Save />
+            </ReactModal> : null}
+        </div>
+    );
 };
 
 const ConnectedResumeEditor = connect(
-    (state) => ({
+    (state: ResumeData) => ({
         resumeJson: state.resumeJson,
+        menuOpen: state.arweave.menuOpen,
     }),
     (dispatch) => ({
         setResumeJson: (resumeJson) => dispatch(setResumeJson(resumeJson)),
